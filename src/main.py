@@ -13,7 +13,7 @@ clock = pygame.time.Clock()
 
 game_map = Map()
 player_instance = Player()
-
+raycaster = RayCaster(player=player_instance)
 
 while True:
     for event in pygame.event.get():
@@ -24,8 +24,11 @@ while True:
 
     screen.fill("black")
     game_map.render(screen=screen)
+
     player_instance.render(screen)
-    ray = Ray(player_instance.rotationAngle, player_instance)
-    ray.render(screen)
+
+    raycaster.cast_all_rays()
+    raycaster.render(screen=screen)
+
     pygame.display.update()
     clock.tick(60)
