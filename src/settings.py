@@ -1,3 +1,5 @@
+import math
+
 ROWS = 10
 COLS = 15
 
@@ -6,3 +8,6 @@ WIDTH = COLS * TILE_SIZE
 HEIGHT = ROWS * TILE_SIZE
 
 RES = 4
+FOV = 60 * (math.pi / 180)
+
+NUM_RAYS = WIDTH // RES
