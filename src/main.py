@@ -3,7 +3,7 @@ import sys
 from settings import *
 from map import Map
 from player import Player
-from ray import Ray
+
 from raycaster import RayCaster
 
 ()
