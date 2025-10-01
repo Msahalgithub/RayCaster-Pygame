@@ -13,7 +13,8 @@ clock = pygame.time.Clock()
 
 game_map = Map()
 player_instance = Player()
-raycaster = RayCaster(player=player_instance)
+
+raycaster = RayCaster(player_instance, game_map)
 
 while True:
     for event in pygame.event.get():
