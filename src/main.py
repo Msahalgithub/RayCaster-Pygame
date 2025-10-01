@@ -24,7 +24,7 @@ while True:
                 sys.exit()
 
     screen.fill("black")
-    game_map.render(screen=screen)
+    # game_map.render(screen=screen)
 
     player_instance.render(screen)
 

@@ -43,4 +43,4 @@ class Player:
 
     def render(self, screen):
         self.player_controls()
-        pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)
+        # pygame.draw.circle(screen, self.color, (self.x, self.y), self.radius)

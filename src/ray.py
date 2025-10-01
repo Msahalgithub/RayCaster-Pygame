@@ -30,6 +30,8 @@ class Ray:
 
         self.map = map()
         self.distance = 0
+        self.color = 255
+        self.light_level = 160
 
     def cast(self):
         found_horizontal_wall = False
@@ -42,7 +44,7 @@ class Ray:
         # ()
 
         if self.is_facing_up:
-            first_intersection_y = ((self.player.y) // TILE_SIZE) * TILE_SIZE - 1
+            first_intersection_y = ((self.player.y) // TILE_SIZE) * TILE_SIZE - 0.001
 
         elif self.is_facing_down:
             first_intersection_y = (
@@ -101,7 +103,7 @@ class Ray:
                 (self.player.x // TILE_SIZE) * TILE_SIZE
             ) + TILE_SIZE
         elif self.is_facing_left:
-            first_intersection_x = ((self.player.x // TILE_SIZE) * TILE_SIZE) - 1
+            first_intersection_x = ((self.player.x // TILE_SIZE) * TILE_SIZE) - 0.001
 
         first_intersection_y = self.player.y + (
             first_intersection_x - self.player.x
@@ -141,6 +143,7 @@ class Ray:
             horizontal_distance = distance_between(
                 self.player.x, self.player.y, horizontal_hit_x, horizontal_hit_y
             )
+
         else:
             horizontal_distance = 88888
 
@@ -148,6 +151,7 @@ class Ray:
             vertical_distance = distance_between(
                 self.player.x, self.player.y, vertical_hit_x, vertical_hit_y
             )
+
         else:
             vertical_distance = 88888
 
@@ -155,19 +159,29 @@ class Ray:
             self.wall_hit_x = horizontal_hit_x
             self.wall_hit_y = horizontal_hit_y
             self.distance = horizontal_distance
+            self.color = 150
         else:
             self.wall_hit_x = vertical_hit_x
             self.wall_hit_y = vertical_hit_y
             self.distance = vertical_distance
+            self.color = 255
+
+        self.distance *= math.cos(self.player.rotationAngle - self.rayAngle)
+        self.color *= self.light_level / self.distance
+
+        if self.color > 255:
+            self.color = 255
+        elif self.color < 0:
+            self.color = 0
 
     def render(self, screen):
-
-        pygame.draw.line(
-            screen,
-            "red",
-            (self.player.x, self.player.y),
-            (
-                self.wall_hit_x,
-                self.wall_hit_y,
-            ),
-        )
+        ...
+        # pygame.draw.line(
+        #     screen,
+        #     "red",
+        #     (self.player.x, self.player.y),
+        #     (
+        #         self.wall_hit_x,
+        #         self.wall_hit_y,
+        #     ),
+        # )

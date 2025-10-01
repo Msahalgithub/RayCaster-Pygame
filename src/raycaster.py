@@ -11,6 +11,7 @@ class RayCaster:
         self.rays = []
         self.player = player
         self.map = map
+        self.d = (WIDTH // 2) / math.tan(FOV / 2)
 
     def cast_all_rays(self):
         self.rays = []
@@ -24,5 +25,19 @@ class RayCaster:
             rayAngle += FOV / NUM_RAYS
 
     def render(self, screen):
+        i = 0
+
         for ray in self.rays:
             ray.render(screen)
+            line_height = (TILE_SIZE / ray.distance) * self.d
+
+            draw_begin = (HEIGHT / 2) - (line_height / 2)
+            draw_end = line_height
+
+            pygame.draw.rect(
+                screen,
+                (ray.color, ray.color, ray.color),
+                (i * RES, draw_begin, RES, draw_end),
+            )
+
+            i += 1
