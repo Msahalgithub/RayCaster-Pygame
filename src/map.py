@@ -30,12 +30,7 @@ class Map:
                 pygame.draw.rect(screen, color, rect)
 
     def has_wall(self, x, y):
-        col = y // TILE_SIZE
-        row = x // TILE_SIZE
-        if self.grid[col][row]:
-            print(row, col, sep=":")
-            return (row, col)
-        return False
+        return self.grid[int(y // TILE_SIZE)][int(x // TILE_SIZE)]
 
     def clear_map(self):
         for row in range(ROWS):

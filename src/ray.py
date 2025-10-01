@@ -13,6 +13,7 @@ class Ray:
     def __init__(self, angle, player, map) -> None:
         self.rayAngle = normalizeAngle(angle)
         self.player = player
+
         self.is_facing_down = self.rayAngle > 0 and self.rayAngle < math.pi
         self.is_facing_up = not self.is_facing_down
         self.is_facing_right = (
@@ -24,18 +25,20 @@ class Ray:
         self.wall_hit_y = 0
 
         self.map = map()
-        
+
     def cast(self):
         found_horizontal_wall = False
         horizontal_hit_x = 0
         horizontal_hit_y = 0
 
         first_intersection_x = None
-        first_intersection_y = 0
+        first_intersection_y = None
+
         # ()
 
         if self.is_facing_up:
             first_intersection_y = ((self.player.y) // TILE_SIZE) * TILE_SIZE - 1
+
         elif self.is_facing_down:
             first_intersection_y = (
                 (self.player.y) // TILE_SIZE
@@ -59,18 +62,39 @@ class Ray:
 
         xa = ya / math.tan(self.rayAngle)
 
-        while (next_horizontal_x <= WIDTH and next_horizontal_x >= 0 and next_horizontal_y <= HEIGHT and next_horizontal_y >= 0):
-            
+        while (
+            next_horizontal_x <= WIDTH
+            and next_horizontal_x >= 0
+            and next_horizontal_y <= HEIGHT
+            and next_horizontal_y >= 0
+        ):
+            # print(next_horizontal_x, next_horizontal_y, sep=":")
+            # print(
+            #     f"Up: {self.is_facing_up}\nDown:{self.is_facing_down}\nRight:{self.is_facing_right}\nLeft:{self.is_facing_left}"
+            # )
 
+            if self.map.has_wall((next_horizontal_x), (next_horizontal_y)):
+
+                found_horizontal_wall = True
+                horizontal_hit_x = next_horizontal_x
+                horizontal_hit_y = next_horizontal_y
+                break
+            else:
+                next_horizontal_x += xa
+                next_horizontal_y += ya
+
+        # Test
+        self.wall_hit_x = horizontal_hit_x
+        self.wall_hit_y = horizontal_hit_y
 
     def render(self, screen):
-        step = 150
+
         pygame.draw.line(
             screen,
             "red",
             (self.player.x, self.player.y),
             (
-                self.player.x + math.cos(self.rayAngle) * step,
-                self.player.y + math.sin(self.rayAngle) * step,
+                self.wall_hit_x,
+                self.wall_hit_y,
             ),
         )

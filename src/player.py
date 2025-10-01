@@ -14,7 +14,7 @@ class Player:
         self.rotationAngle = 0
         self.turnDirection = 0
         self.walkDirection = 0
-        self.rotationSpeed = 5 * (math.pi / 180)
+        self.rotationSpeed = 2 * (math.pi / 180)
         self.moveSpeed = 3
 
     def player_controls(self):
