@@ -174,6 +174,28 @@ class Ray:
         elif self.color < 0:
             self.color = 0
 
+    def bad_cast(self):
+        # this is the brute force method.
+        # I dont who would use this. But okay.
+        # The farther this value is from 0, the lower the precision
+        step = 20
+        hit_x = self.player.x
+        hit_y = self.player.y
+        hit = 0
+        while not hit:
+            if self.map.has_wall(hit_x, hit_y):
+                break
+            else:
+                hit_x += math.cos(self.rayAngle) * step
+                hit_y += math.sin(self.rayAngle) * step
+
+        self.wall_hit_x = hit_x
+        self.wall_hit_y = hit_y
+        self.distance = distance_between(self.player.x, self.player.y, hit_x, hit_y)
+
+        if hit_x >= hit_y:
+            self.color = 160
+
     def render(self, screen):
         ...
         # pygame.draw.line(

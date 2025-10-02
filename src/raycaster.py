@@ -19,6 +19,8 @@ class RayCaster:
 
         for i in range(NUM_RAYS):
             ray = Ray(rayAngle, self.player, self.map)
+
+            ray.bad_cast()
             ray.cast()
             self.rays.append(ray)
 
@@ -29,7 +31,7 @@ class RayCaster:
 
         for ray in self.rays:
             ray.render(screen)
-            line_height = (TILE_SIZE / ray.distance) * self.d
+            line_height = (TILE_SIZE / ray.distance if ray.distance else 1) * self.d
 
             draw_begin = (HEIGHT / 2) - (line_height / 2)
             draw_end = line_height
